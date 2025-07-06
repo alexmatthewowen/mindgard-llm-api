@@ -4,7 +4,6 @@ import pytest
 from unittest.mock import patch
 from llm_client import LLMResponseFirewallClient, OllamaClient, ForbiddenWordException
 
-
 #--------------------------------#
 # Tests for OllamaClient         #
 #--------------------------------#

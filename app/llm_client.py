@@ -15,15 +15,18 @@ class LLMClient(abc.ABC):
 
 
 class OllamaClient(LLMClient):
+    """
+    Client for interacting with an Ollama instance.
+    """
     def __init__(self, url, model):
         self.__url = url
         self.__model = model
 
     def get_response(self, prompt: str) -> str:
         payload = {
-            "model": self.__model,
-            "prompt": prompt,
-            "stream": False
+            'model': self.__model,
+            'prompt': prompt,
+            'stream': False
         }
 
         response = requests.post(self.__url, json=payload)
@@ -31,7 +34,7 @@ class OllamaClient(LLMClient):
         if response.status_code != 200:
             raise Exception('Ollama request failed.')
 
-        return response.json().get("response", "")
+        return response.json().get('response', '')
 
 
 class LLMResponseFirewallClient(LLMClient):
