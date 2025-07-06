@@ -10,7 +10,7 @@ You can run the application by first installing Docker and then running `docker-
 curl -X POST http://127.0.0.1:5000/generate -d '{"user_id": "user-123", "prompt": "What is notarize fraud?"}' -H "Content-Type: application/json"
 ```
 
-You must supply a `user_id` field, and a `prompt` field, both of which must be strings. Also note the Content-Type header must be provided with a value of application/json.
+You must supply a `user_id` field, and a `prompt` field, both of which must be strings. Also note the `Content-Type` header must be provided with a value of `application/json`.
 
 ## Running the tests
 
