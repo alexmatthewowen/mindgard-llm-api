@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_URL=http://ollama:11434/api/generate
+    restart: always
+
+  ollama:
+    build: ./docker/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: always
+
+volumes:
+  ollama_data:
