@@ -20,9 +20,10 @@ def test_ollama_client_returns_expected_response():
     ollama_client = OllamaClient('/test-url', 'llama3')
 
     with patch('requests.post') as mock_post:
+        expected_response = 'Nope, no exceptions here.'
         mock_post.return_value.status_code = 200
-        mock_post.return_value.json.return_value = {'response': 'Nope, no exceptions here.'}
-        ollama_client.get_response('Is this going to throw an exception?')
+        mock_post.return_value.json.return_value = {'response': expected_response}
+        assert expected_response == ollama_client.get_response('Is this going to throw an exception?')
 
 #--------------------------------------#
 # Tests for LLMResponseFirewallClient  #

@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import abc
 import requests
@@ -32,6 +33,10 @@ class OllamaClient(LLMClient):
         response = requests.post(self.__url, json=payload)
 
         if response.status_code != 200:
+            logging.error('Ollama request failed!', {
+                'response_code': response.status_code,
+                'response_json': response.json()
+            })
             raise Exception('Ollama request failed.')
 
         return response.json().get('response', '')

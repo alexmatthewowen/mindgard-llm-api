@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, jsonify, Response, request
 from werkzeug.exceptions import HTTPException
 
@@ -15,21 +16,29 @@ def generate() -> tuple[Response, int]:
     data = request.get_json()
 
     try:
-        response = llm_client.get_response(data.get("prompt"))
-        return jsonify({"response": response}), 201
+        response = llm_client.get_response(data.get('prompt'))
+        return jsonify({'response': response}), 201
     except ForbiddenWordException:
-        return jsonify({"error": "The response from the LLM contained a forbidden word."}), 422
+        logging.warning('A user\'s prompt resulted in a forbidden word returned from the LLM.', {
+            'user_id': data.get('user_id'),
+            'prompt': data.get('prompt')
+        })
+        return jsonify({'error': 'The response from the LLM contained a forbidden word.'}), 422
 
 
 @app.errorhandler(Exception)
 def handle_uncaught_error(e) -> tuple[Response, int]:
     if isinstance(e, HTTPException):
         return jsonify({
-        "error": e.description
+        'error': e.description
     }), e.code
 
+    logging.error('An unhandled exception resulted in a 500 response.', {
+        'error': e.description
+    })
+
     return jsonify({
-        "error": "Oops! An error occurred, please try again later."
+        'error': 'Oops! An error occurred, please try again later.'
     }), 500
 
 
