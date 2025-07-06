@@ -8,8 +8,8 @@ until curl -s http://localhost:11434/api/tags > /dev/null; do
   sleep 1
 done
 
-echo "Pulling model: llama3"
-ollama pull llama3
+echo "Pulling model: tinyllama"
+ollama pull tinyllama
 
 echo "Model ready. Ollama is running."
 tail -f /dev/null
